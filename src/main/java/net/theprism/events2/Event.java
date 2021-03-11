@@ -17,7 +17,7 @@ public abstract class Event {
      *
      * @param cancelled cancelled
      */
-    public final void setCancelled(boolean cancelled) {
+    public void setCancelled(boolean cancelled) {
         this.cancelled = cancelled;
     }
 
@@ -26,7 +26,7 @@ public abstract class Event {
      *
      * @return true if cancelled
      */
-    public final boolean isCancelled() {
+    public boolean isCancelled() {
         return this.cancelled;
     }
 }
