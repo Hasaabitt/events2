@@ -12,8 +12,6 @@ public class Dispatcher {
         sender.addReceiverMethods(TestEvents.class);
         System.out.println("-- Sending integer --");
         sender.send(21);
-        System.out.println("-- Sending string --");
-        sender.send("not lowercase");
     }
 
     public static void eventTest() {

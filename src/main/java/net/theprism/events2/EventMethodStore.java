@@ -13,17 +13,16 @@ class EventMethodStore extends MethodStore {
 
     @Override
     protected void addMethod(Method method) {
-        if (method.isAnnotationPresent(Receiver.class)) {
-            String[] sources = method.getAnnotation(Receiver.class).source();
-            for (String source : sources) {
-                if (method.getParameterCount() == 0 || !Event.class.isAssignableFrom(method.getParameterTypes()[0]))
-                    continue;
-                if (source.equals(this.senderName) || (this.allowGlobal && source.isEmpty())) {
-                    if (!this.methods.contains(method)) this.methods.add(method);
-                }
+        if (method.isAnnotationPresent(Receiver.class)) return;
+        String[] sources = method.getAnnotation(Receiver.class).source();
+        for (String source : sources) {
+            if (method.getParameterCount() == 0 || !Event.class.isAssignableFrom(method.getParameterTypes()[0]))
+                continue;
+            if (source.equals(this.senderName) || (this.allowGlobal && source.isEmpty())) {
+                if (!this.methods.contains(method)) this.methods.add(method);
             }
         }
-        this.methods.sort((m1, m2) -> Integer.compare(m2.getAnnotation(Receiver.class).priority().asInt(), m1.getAnnotation(Receiver.class).priority().asInt()));
+        //sort();
     }
 
     @Override

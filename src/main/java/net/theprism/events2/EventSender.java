@@ -48,9 +48,7 @@ public class EventSender extends Sender {
     @Override
     public void addReceiverMethods(Class<?> clazz) {
         for (Method m : clazz.getDeclaredMethods()) {
-            if (m.getParameterCount() == 0) continue;
-            if (!m.isAnnotationPresent(Receiver.class)) continue;
-            String[] s = m.getAnnotation(Receiver.class).source();
+            if (m.getParameterCount() == 0 || !m.isAnnotationPresent(Receiver.class)) continue;
             if (this.methodMap.containsKey(m.getParameterTypes()[0])) {
                 EventMethodStore store = this.methodMap.get(m.getParameterTypes()[0]);
                 store.addMethod(m);
@@ -65,6 +63,9 @@ public class EventSender extends Sender {
                 }
             }
         }
+        methodMap.forEach((k, v) -> {
+            v.sort();
+        });
     }
 
     /**

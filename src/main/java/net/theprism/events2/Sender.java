@@ -1,7 +1,8 @@
 package net.theprism.events2;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Generic sender. Receivers with the same type parameter will receive from the sender. While this can be used similarly to {@link EventSender} it does not contain functionality like event cancelling.
@@ -11,7 +12,7 @@ import java.util.HashMap;
 public class Sender {
     protected final String senderName;
     protected final boolean allowGlobal;
-    protected final HashMap<Class<?>, MethodStore> methodMap;
+    protected final Map<Class<?>, MethodStore> methodMap;
 
     /**
      * Creates a default sender.
@@ -38,7 +39,7 @@ public class Sender {
     public Sender(String senderName, boolean allowGlobal) {
         this.senderName = senderName;
         this.allowGlobal = allowGlobal;
-        methodMap = new HashMap<>();
+        methodMap = new ConcurrentHashMap<>();
     }
 
     /**
@@ -49,7 +50,7 @@ public class Sender {
      */
     public void addReceiverMethods(Class<?> clazz) {
         for (Method m : clazz.getDeclaredMethods()) {
-            if (m.getParameterCount() == 0) continue;
+            if (m.getParameterCount() == 0 || !m.isAnnotationPresent(Receiver.class)) continue;
             if (this.methodMap.containsKey(m.getParameterTypes()[0])) {
                 MethodStore store = this.methodMap.get(m.getParameterTypes()[0]);
                 store.addMethod(m);
@@ -59,6 +60,9 @@ public class Sender {
                 this.methodMap.put(m.getParameterTypes()[0], store);
             }
         }
+        methodMap.forEach((k, v) -> {
+            v.sort();
+        });
     }
 
     /**

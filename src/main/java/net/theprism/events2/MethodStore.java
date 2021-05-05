@@ -20,17 +20,20 @@ class MethodStore {
     }
 
     protected void addMethod(Method method) {
-        if (method.isAnnotationPresent(Receiver.class)) {
-            String[] sources = method.getAnnotation(Receiver.class).source();
-            for (String source : sources) {
-                if (method.getParameterCount() == 0)
-                    continue;
-                if (source.equals(senderName) || (allowGlobal && source.isEmpty())) {
-                    if (!this.methods.contains(method)) this.methods.add(method);
-                }
+        if (!method.isAnnotationPresent(Receiver.class)) return;
+        String[] sources = method.getAnnotation(Receiver.class).source();
+        for (String source : sources) {
+            if (method.getParameterCount() == 0)
+                continue;
+            if (source.equals(senderName) || (allowGlobal && source.isEmpty())) {
+                if (!this.methods.contains(method)) this.methods.add(method);
             }
-            this.methods.sort((m1, m2) -> Integer.compare(m2.getAnnotation(Receiver.class).priority().asInt(), m1.getAnnotation(Receiver.class).priority().asInt()));
         }
+        //sort();
+    }
+
+    protected void sort() {
+        this.methods.sort((m1, m2) -> Integer.compare(m2.getAnnotation(Receiver.class).priority().asInt(), m1.getAnnotation(Receiver.class).priority().asInt()));
     }
 
     protected void invoke(Object instance) {

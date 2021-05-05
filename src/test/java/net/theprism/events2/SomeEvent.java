@@ -1,7 +1,5 @@
 package net.theprism.events2;
 
-import net.theprism.events2.Event;
-
 public class SomeEvent extends Event {
     private final int value;
 
