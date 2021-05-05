@@ -29,7 +29,6 @@ class MethodStore {
                 if (!this.methods.contains(method)) this.methods.add(method);
             }
         }
-        //sort();
     }
 
     protected void sort() {
