@@ -61,7 +61,7 @@ Declares a named sender where if allowGlobal is true unnamed receivers can also 
 new Sender(String name, boolean allowGlobal);
 ```
 ### Receivers
-Receivers are declared with the `@Receiver` annotation. Without any arguments the receiver receives from the default sender and named senders that allow it. The arguments are as follows:
-**source** The name of the sender the receiver should receive from, unnamed by default. A sender can specify whether or not it sends to unnamed receivers. An array of names is allowed.
-**priority** When there are multiple receivers that would receive an object the priority determines the order in which they happen. Default is medium.
+Receivers are declared with the `@Receiver` annotation. Without any arguments the receiver receives from the default sender and named senders that allow it. The arguments are as follows:  
+**source** The name of the sender the receiver should receive from, unnamed by default. A sender can specify whether or not it sends to unnamed receivers. An array of names is allowed.  
+**priority** When there are multiple receivers that would receive an object the priority determines the order in which they happen. Default is medium.  
 **ignoreCancelled** Only used by event senders. If true the event method will be fired even if it was previously cancelled. Default is false.
